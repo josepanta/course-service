@@ -1,0 +1,167 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/JOSEPANTA63/course-service/1.0.0
+info:
+  description: API of courses
+  version: "1.0.0"
+  title: course-service
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: users
+    description: Operations available to regular users
+paths:
+  /course:
+    get:
+      tags:
+        - users
+      summary: return all courses
+      operationId: getAll
+      description: |
+        return all courses
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseResponse'
+        '400':
+          description: unsuccessful operation
+    post:
+      tags:
+        - users
+      summary: add course
+      operationId: save
+      description: add course
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: unsuccessful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseRequest'
+        description: course to add
+        required: true
+  /course/{id}:
+    get:
+      tags:
+        - users
+      summary: return get course by id
+      operationId: getById
+      description: |
+        return all courses
+      parameters:
+        - name: id
+          in: path
+          description: course id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseResponse'
+        '400':
+          description: unsuccessful operation
+    put:
+      tags:
+        - users
+      summary: update course
+      operationId: update
+      description: |
+        update course
+      parameters:
+        - name: id
+          in: path
+          description: course id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: unsuccessful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseRequest'
+        description: course to update
+        required: true
+    patch:
+      tags:
+        - users
+      summary: disable course
+      operationId: disable
+      description: |
+        disable course
+      parameters:
+        - name: id
+          in: path
+          description: course id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: unsuccessful operation
+components:
+  schemas:
+    CourseRequest:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          example: maths
+        description:
+          type: string
+          example: course about numbers
+        state:
+          type: string
+          minLength: 1
+          maxLength: 1
+          example: A
+    CourseResponse:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - state
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: maths
+        description:
+          type: string
+          example: course about numbers
+        state:
+          type: string
+          example: A
